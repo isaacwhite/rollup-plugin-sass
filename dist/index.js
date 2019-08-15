@@ -49,6 +49,8 @@ function plugin() {
     },
     transform: function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(code, id) {
+        var _this = this;
+
         var paths, customizedSassOptions, res, css, defaultExport, restExports, processResult;
         return _regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -114,7 +116,7 @@ function plugin() {
                 }
 
                 _context.next = 15;
-                return options.processor(css, id);
+                return options.processor(css, id, res);
 
               case 15:
                 processResult = _context.sent;
@@ -163,25 +165,29 @@ function plugin() {
                 }
 
               case 27:
+
+                (res.stats.includedFiles || []).forEach(function (f) {
+                  _this.addWatchFile(f);
+                });
+
                 return _context.abrupt('return', {
                   code: ['export default ' + defaultExport + ';'].concat(_toConsumableArray(restExports || [])).join('\n'),
                   map: {
                     mappings: res.map ? res.map.toString() : ''
-                  },
-                  dependencies: res.stats.includedFiles
+                  }
                 });
 
-              case 30:
-                _context.prev = 30;
+              case 31:
+                _context.prev = 31;
                 _context.t0 = _context['catch'](2);
                 throw _context.t0;
 
-              case 33:
+              case 34:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 30]]);
+        }, _callee, this, [[2, 31]]);
       }));
 
       function transform(_x2, _x3) {

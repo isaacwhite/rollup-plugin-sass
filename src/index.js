@@ -83,7 +83,7 @@ export default function plugin(options = {}) {
         let restExports;
         if (css) {
           if (isFunction(options.processor)) {
-            const processResult = await options.processor(css, id);
+            const processResult = await options.processor(css, id, res);
 
             if (typeof processResult === 'object') {
               if (typeof processResult.css !== 'string') {
@@ -112,6 +112,11 @@ export default function plugin(options = {}) {
             defaultExport = `"";`;
           }
         }
+
+        (res.stats.includedFiles || []).forEach((f) => {
+          this.addWatchFile(f)
+        });
+
         return {
           code: [
             `export default ${defaultExport};`,
@@ -121,8 +126,7 @@ export default function plugin(options = {}) {
             mappings: res.map
               ? res.map.toString()
               : '',
-          },
-          dependencies: res.stats.includedFiles
+          }
         };
       } catch (error) {
         throw error;
