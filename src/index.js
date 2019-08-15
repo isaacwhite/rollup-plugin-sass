@@ -43,6 +43,7 @@ export default function plugin(options = {}) {
       try {
         const paths = [dirname(id), process.cwd()];
         const customizedSassOptions = options.options || {};
+
         const res = await pify(sassRuntime.render.bind(sassRuntime))(Object.assign({}, customizedSassOptions, {
           file: id,
           data: customizedSassOptions.data && `${customizedSassOptions.data}${code}`,
@@ -80,7 +81,6 @@ export default function plugin(options = {}) {
         let css = res.css.toString().trim();
         let defaultExport = '';
         let restExports;
-
         if (css) {
           if (isFunction(options.processor)) {
             const processResult = await options.processor(css, id);
@@ -122,6 +122,7 @@ export default function plugin(options = {}) {
               ? res.map.toString()
               : '',
           },
+          dependencies: res.stats.includedFiles
         };
       } catch (error) {
         throw error;

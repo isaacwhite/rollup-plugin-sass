@@ -167,7 +167,8 @@ function plugin() {
                   code: ['export default ' + defaultExport + ';'].concat(_toConsumableArray(restExports || [])).join('\n'),
                   map: {
                     mappings: res.map ? res.map.toString() : ''
-                  }
+                  },
+                  dependencies: res.stats.includedFiles
                 });
 
               case 30:
